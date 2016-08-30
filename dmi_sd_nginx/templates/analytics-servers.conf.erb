@@ -1,23 +1,5 @@
-upstream  oms_<%=@customer1%>_core {
-	<% @customer1_portal_servers.each do |portal1servers| -%>
-server  <%=portal1servers-%>:8080  weight=1  max_fails=2  fail_timeout=5s;
-	<% end -%>
+upstream  analytics_core {
+	server  ano-dls1.internal.datami.com:8080  weight=1  max_fails=2  fail_timeout=5s;
+	server  ano-dls1.internal.datami.com:8080  weight=1  max_fails=2  fail_timeout=5s;
 }
 
-upstream  oms_<%=@customer1%>_cp_core {
-	<% @customer1_portal_servers.each do |portal1servers| -%>
-server  <%=portal1servers-%>:8081  weight=1  max_fails=2  fail_timeout=5s;
-	<% end -%>
-}
-
-upstream  oms_<%=@customer2%>_core {
-        <% @customer2_portal_servers.each do |portal2servers| -%>
-server  <%=portal2servers-%>:8080  weight=1  max_fails=2  fail_timeout=5s;
-        <% end -%>
-}
-
-upstream  oms_<%=@customer2%>_cp_core {
-        <% @customer2_portal_servers.each do |portal2servers| -%>
-server  <%=portal2servers-%>:8081  weight=1  max_fails=2  fail_timeout=5s;
-        <% end -%>
-}

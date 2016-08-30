@@ -1,5 +1,4 @@
-upstream  oms_core {
-	<% @portal_servers.each do |portalservers| -%>
-server  <%=portalservers-%>:8080  weight=1  max_fails=2  fail_timeout=5s;
-	<% end -%>
+upstream  bid_agent_core {
+	server  ano-dls1.internal.datami.com:8080  weight=1  max_fails=2  fail_timeout=5s;
+	server  ano-dls2.internal.datami.com:8080  weight=1  max_fails=2  fail_timeout=5s;
 }

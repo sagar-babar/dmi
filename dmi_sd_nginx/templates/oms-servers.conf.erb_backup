@@ -1,9 +1,0 @@
-<% @customers.each do |customer,servers| %>
-upstream  oms_<%= customer %>_core {
-	server  <%= servers %>:8080  weight=1  max_fails=2  fail_timeout=5s;
-}
-
-upstream  oms_<%= customer %>_cp_core {
-	server  <%= servers %>:8081  weight=1  max_fails=2  fail_timeout=5s;
-}
-<% end -%>

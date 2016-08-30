@@ -1,8 +1,0 @@
-location  /oms {
-	proxy_pass  http://oms_core;
-}
-
-location  /cp {
-	proxy_pass  http://oms_cp_core;
-}
-

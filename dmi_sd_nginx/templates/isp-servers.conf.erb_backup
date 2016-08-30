@@ -1,5 +1,0 @@
-upstream  isp_core {
-	<% @isp_servers.each do |ispservers| -%>
-server  <%=ispservers-%>:80  weight=1  max_fails=2  fail_timeout=5s;
-	<% end -%>
-}

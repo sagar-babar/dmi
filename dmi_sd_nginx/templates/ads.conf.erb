@@ -1,0 +1,24 @@
+server {
+        listen       8090;
+        server_name  localhost;
+        client_max_body_size 20M;
+
+        location /ads {
+            rewrite ^/ads$ /ads/ permanent;
+            rewrite /ads(.*) $1;
+        }
+
+        location /imgstore {
+            alias  /data/ads/imgstore/$arg_filename;
+            #access_log /logs/ads/cpm.log json;
+        }
+
+        location /creative {
+            alias  /data/ads/adshtml/$arg_filename;
+        }
+
+        location /trackingsdk {
+            alias  /data/ads/tracking-sdk;
+        }
+
+    }

@@ -1,0 +1,11 @@
+upstream  oms_<%=@customer1%>_core {
+	<% @customer1_portal_servers.each do |portalservers| -%>
+server  <%=portalservers-%>:8080  weight=1  max_fails=2  fail_timeout=5s;
+	<% end -%>
+}
+
+upstream  oms_<%=@customer1%>_cp_core {
+	<% @customer1_portal_servers.each do |portalservers| -%>
+server  <%=portalservers-%>:8081  weight=1  max_fails=2  fail_timeout=5s;
+	<% end -%>
+}

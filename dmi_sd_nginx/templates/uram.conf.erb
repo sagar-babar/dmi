@@ -1,0 +1,15 @@
+location  /uram {
+	if ($scheme = 'https') {
+		return  403;
+	}
+
+	proxy_pass  http://uram_core;
+}
+
+location  /uram/ext {
+	if ($scheme = 'https') {
+		return  403;
+	}
+
+	proxy_pass  http://uram_ext;
+}

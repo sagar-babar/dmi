@@ -1,0 +1,13 @@
+# For security reasons hide nginx version
+server_tokens  off;
+
+# Include etag on static resources
+etag  on;
+
+sendfile  on;
+client_max_body_size  10m;
+tcp_nopush  on;
+chunked_transfer_encoding  off;
+keepalive_requests  1000;
+keepalive_timeout  30;
+reset_timedout_connection  on;

@@ -1,0 +1,7 @@
+location  /das {
+	proxy_pass  http://das_core;
+}
+
+location  /auth {
+	proxy_pass  http://das_auth;
+}

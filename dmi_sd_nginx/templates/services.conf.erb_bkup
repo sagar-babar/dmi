@@ -1,0 +1,96 @@
+server {
+	listen  80;
+	listen  443 ssl;
+
+	# VPC internal DNS
+	resolver  10.4.0.2;
+
+	server_name  <%=@customer%>-api.cloudmi.datami.com  test-<%=@customer%>-api.cloudmi.datami.com  <%=@customer2%>-api.cloudmi.datami.com  test-<%=@customer2%>-api.cloudmi.datami.com api.internal.datami.com  localhost  127.0.0.1;
+
+	# Include SSL configuration
+	include  /usr/local/nginx/conf/dmi/common/ssl.conf;
+
+	location  / {
+		return  404;
+	}
+
+	location  = /robots.txt {
+		echo "User-agent: *\nDisallow: /";
+	}
+
+	location  /healthcheck {
+		access_log  off;
+		echo  "ok";
+	}
+
+	# Protect against PHP brute force attack
+	location  ~ \.php$ {
+		limit_req_status  444;
+
+		location  ~* wp\-login\.php {
+			limit_req   zone=one  burst=1 nodelay;
+			access_log  off;
+			deny all;
+		}
+	}
+
+	#error_page  404              /404.html;
+
+	# redirect server error pages to the static page /50x.html
+	#error_page  500 502 503 504  /50x.html;
+	#location = /50x.html {
+	#	root  html;
+	#}
+
+	#access_log  logs/host.access.log  main;
+
+	# JS-SDK Support: CORS support for all requests!
+	more_set_headers 'Access-Control-Allow-Methods: POST,GET,OPTIONS';
+	more_set_headers 'Access-Control-Allow-Headers: $http_access_control_request_headers';
+	more_set_headers 'Access-Control-Allow-Origin: *';
+
+	<% @upstream_services.each do |services| -%>
+include  /usr/local/nginx/conf/dmi/services/<%=services-%>.conf;
+	<% end -%>
+
+}
+
+##############################################
+# Server configuration for OMS portal only!
+##############################################
+server {
+	listen 80;
+	listen 443 ssl;
+
+	server_name  <%=@customer%>-portal.cloudmi.datami.com  test-<%=@customer%>-portal.cloudmi.datami.com <%=@customer2%>-portal.cloudmi.datami.com  test-<%=@customer2%>-portal.cloudmi.datami.com;
+
+	# Include SSL configuration
+	include  /usr/local/nginx/conf/dmi/common/ssl.conf;
+
+	location  = /robots.txt {
+		echo "User-agent: *\nDisallow: /";
+	}
+
+	# Protect against PHP brute force attack
+	location  ~ \.php$ {
+		limit_req_status  444;
+
+		location  ~* wp\-login\.php {
+			limit_req   zone=one  burst=1 nodelay;
+			access_log  on;
+			deny all;
+		}
+	}
+
+	location  / {
+		proxy_pass http://oms_cp_core;
+	}
+
+	location  /oms {
+		proxy_pass http://oms_core;
+	}
+
+	location  /cp {
+		proxy_pass http://oms_cp_core;
+	}
+}

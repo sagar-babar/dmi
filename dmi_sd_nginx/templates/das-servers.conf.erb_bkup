@@ -1,0 +1,11 @@
+upstream  das_core {
+	<% @tomcat_servers.each do |tomcatservers| -%>
+server  <%=tomcatservers-%>:8080  weight=1  max_fails=2  fail_timeout=5s;
+	<% end -%>
+}
+
+upstream  das_auth {
+	<% @tomcat_servers.each do |tomcatservers| -%>
+server  <%=tomcatservers-%>:8080  weight=1  max_fails=2  fail_timeout=5s;
+	<% end -%>
+}

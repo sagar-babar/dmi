@@ -1,0 +1,4 @@
+# Declare a zone for a specific rate limit
+# Mainly to protect against brute force attacks
+# Slow rate - 30 reqs/min
+limit_req_zone  $binary_remote_addr zone=one:10m rate=1r/s;

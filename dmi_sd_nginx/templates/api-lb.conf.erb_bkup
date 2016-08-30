@@ -1,0 +1,40 @@
+http {
+	include       mime.types;
+	default_type  application/octet-stream;
+
+	log_format  access  '[$time_iso8601] [v1] '
+						'[$host] [$scheme] [$request] [$request_method] [$request_uri] [$query_string] [$server_protocol] '
+						'[$content_type] [$http_referer] [$http_user_agent] '
+						'[$status] [$request_time] [$request_length] [$content_length] [$bytes_sent] [$body_bytes_sent] '
+						'[$http_x_real_ip] [$http_x_forwarded_for] [$http_x_forwarded_port] [$server_addr] [$server_port] '
+						'[$remote_addr] [$remote_user] [$remote_port] '
+						'[$upstream_addr] '
+						'[$server_name] [$connection] [$connection_requests] [$request_completion] [$upstream_cache_status]';
+
+	access_log  logs/nginx-access.log  access;
+	error_log   logs/nginx-error.log   info;
+
+	# TCP level optimizations like keep-alive, etc
+	include  /usr/local/nginx/conf/dmi/common/tcp-opt.conf;
+
+	# Proxy settings like X-Real-IP headers, response buffering, etc
+	include  /usr/local/nginx/conf/dmi/common/proxy.conf;
+
+	# File descriptor caching configuration
+	include  /usr/local/nginx/conf/dmi/common/file-cache.conf;
+
+	# GZip configuration
+	include  /usr/local/nginx/conf/dmi/common/gzip.conf;
+
+	# Rate limiting zone configurations
+	include  /usr/local/nginx/conf/dmi/common/rate-limit-zones.conf;
+
+	# Load balanced upstream servers
+	<% @upstream_services.each do |servicename| -%>
+include  /usr/local/nginx/conf/dmi/upstream/<%=servicename-%>-servers.conf;
+	<% end -%>
+
+	# API specific configuration
+	include  /usr/local/nginx/conf/dmi/common-endpoints.conf;
+	include  /usr/local/nginx/conf/dmi/services.conf;
+}

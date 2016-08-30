@@ -1,0 +1,11 @@
+location  /aacmi {
+       	proxy_pass  http://aacmi_core;
+}
+
+location  /aacmi/v1/sd/int/authorize {
+       	proxy_pass  http://aacmi_core_authorize;
+}
+
+#location /aacmi/v1/sd/int/authorize {
+#      	return 404;
+#}

@@ -1,0 +1,213 @@
+server {
+	listen  80;
+	listen  443 ssl;
+
+	# VPC internal DNS
+	resolver  <%=@name_server%>;
+
+	server_name  <% @portal_operators.each do |operators| -%><%=operators%>-api.cloudmi.datami.com  test-<%=operators%>-api.cloudmi.datami.com  <% end -%>api.internal.datami.com  localhost  127.0.0.1;
+
+	# Include SSL configuration
+	include  /usr/local/nginx/conf/dmi/common/ssl.conf;
+
+	location  / {
+		return  404;
+	}
+
+	location  = /robots.txt {
+		echo "User-agent: *\nDisallow: /";
+	}
+
+	location  /healthcheck {
+		access_log  off;
+		echo  "ok";
+	}
+
+	# Protect against PHP brute force attack
+	location  ~ \.php$ {
+		limit_req_status  444;
+
+		location  ~* wp\-login\.php {
+			limit_req   zone=one  burst=1 nodelay;
+			access_log  off;
+			deny all;
+		}
+	}
+
+	# JS-SDK Support: CORS support for all requests!
+	more_set_headers 'Access-Control-Allow-Methods: POST,GET,OPTIONS';
+	more_set_headers 'Access-Control-Allow-Headers: $http_access_control_request_headers';
+	more_set_headers 'Access-Control-Allow-Origin: *';
+
+	<% @sd_services.each do |services| -%>
+include  /usr/local/nginx/conf/dmi/services/<%=services-%>.conf;
+	<% end -%>
+
+}
+
+#################################################################
+## configuration to support multi operator account for dns/isp ##
+#################################################################
+
+	<% @dns_operators.each do |operators| -%>
+
+server {
+	listen  80;
+	listen  443 ssl;
+
+	# VPC internal DNS
+	resolver  <%=@name_server%>;
+
+	server_name  <%=operators-%>-api.cloudmi.datami.com  test-<%=operators-%>-api.cloudmi.datami.com;
+
+	# Include SSL configuration
+	include  /usr/local/nginx/conf/dmi/common/ssl.conf;
+
+	location  / {
+		return  404;
+	}
+
+	location  = /robots.txt {
+		echo "User-agent: *\nDisallow: /";
+	}
+
+	location  /healthcheck {
+		access_log  off;
+		echo  "ok";
+	}
+
+	# Protect against PHP brute force attack
+	location  ~ \.php$ {
+		limit_req_status  444;
+
+		location  ~* wp\-login\.php {
+			limit_req   zone=one  burst=1 nodelay;
+			access_log  off;
+			deny all;
+		}
+	}
+
+	# JS-SDK Support: CORS support for all requests!
+	more_set_headers 'Access-Control-Allow-Methods: POST,GET,OPTIONS';
+	more_set_headers 'Access-Control-Allow-Headers: $http_access_control_request_headers';
+	more_set_headers 'Access-Control-Allow-Origin: *';
+
+	location  /dns {
+		proxy_pass http://dns_<%=operators-%>_core;
+	}
+
+	location  /isp {
+		proxy_pass http://isp_<%=operators-%>_core;
+	}
+}
+	<% end -%>
+
+###############################################################
+## configuration to support multi operator account for portal##
+###############################################################
+
+	<% @portal_operators.each do |operators| -%>
+
+server {
+	listen  80;
+	listen  443 ssl;
+
+	# VPC internal DNS
+	resolver  <%=@name_server%>;
+
+	server_name  <%=operators-%>-api.cloudmi.datami.com  test-<%=operators-%>-api.cloudmi.datami.com;
+
+	# Include SSL configuration
+	include  /usr/local/nginx/conf/dmi/common/ssl.conf;
+
+	location  = /robots.txt {
+		echo "User-agent: *\nDisallow: /";
+	}
+
+	location  /healthcheck {
+		access_log  off;
+		echo  "ok";
+	}
+
+	# Protect against PHP brute force attack
+	location  ~ \.php$ {
+		limit_req_status  444;
+
+		location  ~* wp\-login\.php {
+			limit_req   zone=one  burst=1 nodelay;
+			access_log  off;
+			deny all;
+		}
+	}
+
+	# JS-SDK Support: CORS support for all requests!
+	more_set_headers 'Access-Control-Allow-Methods: POST,GET,OPTIONS';
+	more_set_headers 'Access-Control-Allow-Headers: $http_access_control_request_headers';
+	more_set_headers 'Access-Control-Allow-Origin: *';
+
+	location  /oms {
+		proxy_pass http://oms_<%=operators-%>_core;
+	}
+
+	location  /cp {
+		proxy_pass http://oms_<%=operators-%>_cp_core;
+	}
+}
+	<% end -%>
+
+	<% @portal_operators.each do |operators| -%>
+
+###############################################################
+## configuration to support multi operator account for portal##
+###############################################################
+
+server {
+	listen  80;
+	listen  443 ssl;
+
+	# VPC internal DNS
+	resolver  <%=@name_server%>;
+
+	server_name  <%=operators-%>-portal.cloudmi.datami.com  test-<%=operators-%>-portal.cloudmi.datami.com;
+
+	# Include SSL configuration
+	include  /usr/local/nginx/conf/dmi/common/ssl.conf;
+
+	location  = /robots.txt {
+		echo "User-agent: *\nDisallow: /";
+	}
+
+	location  /healthcheck {
+		access_log  off;
+		echo  "ok";
+	}
+
+	# Protect against PHP brute force attack
+	location  ~ \.php$ {
+		limit_req_status  444;
+
+		location  ~* wp\-login\.php {
+			limit_req   zone=one  burst=1 nodelay;
+			access_log  off;
+			deny all;
+		}
+	}
+
+	# JS-SDK Support: CORS support for all requests!
+	more_set_headers 'Access-Control-Allow-Methods: POST,GET,OPTIONS';
+	more_set_headers 'Access-Control-Allow-Headers: $http_access_control_request_headers';
+	more_set_headers 'Access-Control-Allow-Origin: *';
+
+	location  / {
+		proxy_pass http://oms_<%=operators-%>_cp_core;
+	}
+
+	location  /oms {
+		proxy_pass http://oms_<%=operators-%>_core;
+	}
+
+	location  /cp {
+		proxy_pass http://oms_<%=operators-%>_cp_core;
+	}
+}
+<% end -%>

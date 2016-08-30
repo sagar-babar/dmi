@@ -1,0 +1,13 @@
+# Set proxy headers
+proxy_set_header  Host               $http_host;
+proxy_set_header  X-Forwarded-Proto  $scheme;
+proxy_set_header  X-Forwarded-By     $server_addr:$server_port;
+proxy_set_header  X-Forwarded-For    $http_x_forwarded_for;
+proxy_set_header  X-Real-IP          $http_x_real_ip;
+proxy_set_header  X-Client-IP        $remote_addr;
+
+# Don't buffer responses from proxied server
+proxy_buffering  off;
+proxy_buffer_size  128k;
+proxy_buffers  4 256k;
+proxy_busy_buffers_size  256k;

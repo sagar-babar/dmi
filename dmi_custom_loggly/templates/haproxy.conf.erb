@@ -1,0 +1,39 @@
+<source>
+	type     tail
+	path     /logs/haproxy.log
+	pos_file /logs/td-agent/haproxy.log.pos
+	tag      raw.<%=@customer%>.haproxy.logs
+
+	format   none
+</source>
+
+#
+# HA Proxy Log Parser
+#
+<match raw.<%=@customer%>.haproxy.logs>
+	type          parser
+
+	key_name      message
+	format        /\]((.*?)): \[(?<tstamp>(.*?))\] \[(?<ver>(.*?))\] \[(?<srvGrpName>(.*?))\] \[(?<scheme>(.*?))\] (\[((?<method>(.*?)) (?<uri>(.*?)) (?<proto>(.*?))|(?<badReqOrNone>(.*?)))\]) \[(?<statusCode>(.*?))\] \[(?<reqLen>(.*?))\] \[(?<respLen>(.*?))\] \[(?<responseTime>(.*?))\] \[(?<clientIp>(.*?))\] \[(?<clientPort>(.*?))\] \[(?<serverAddr>(.*?))\] \[(?<serverPort>(.*?))\] \[(?<serverAlias>(.*?))\] \[\"(?<reqUid>(.*?))\" \"(?<domain>(.*?))\" \"(?<reqContLen>(.*?))\" \"(?<reqContType>(.*?))\"(?<otherReqHeaders>(.*?))\] \[\"(?<resUid>(.*?))\" \"(?<resContLen>(.*?))\" \"(?<resContType>(.*?))\"(?<otherResHeaders>(.*?))\](?<others>(.*))/
+
+	remove_prefix raw
+	add_prefix    parsed
+</match>
+
+<match parsed.<%=@customer%>.haproxy.logs>
+	type          typecast
+	item_types    statusCode:integer,responseTime:integer,reqLen:integer,respLen:integer
+
+	prefix        typecasted
+</match>
+
+<match typecasted.parsed.<%=@customer%>.haproxy.**>
+	type         record_reformer
+
+	renew_record false
+	tag          enriched.${tag_suffix[2]}
+
+	<record>
+		host     ${hostname}
+	</record>
+</match>

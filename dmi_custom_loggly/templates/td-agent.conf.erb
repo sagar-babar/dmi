@@ -1,0 +1,18 @@
+# Include test configuration
+include modules/test.conf
+
+#include modules/uram.conf
+#include modules/aacmi.conf
+#include modules/haproxy.conf
+#include modules/dns.conf
+#include modules/isp.conf
+#include modules/sni.conf
+#include modules/dns-hmon.conf
+#include modules/nginx-clb.conf
+include modules/dls.conf
+
+# Emit Logs
+include modules/emitter.conf
+
+# Log pending items to stdout!
+include modules/pending.conf

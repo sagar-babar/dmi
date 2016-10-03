@@ -1,0 +1,39 @@
+<source>
+	type     tail
+	path     /logs/nginx/nginx-access.log
+	pos_file /logs/td-agent/nginx-clb-access.log.pos
+	tag      raw.<%=@customer%>.nginx-clb.logs
+
+	format   none
+</source>
+
+#
+# NGinx Log Parser
+#
+<match raw.<%=@customer%>.nginx-clb.logs>
+	type          parser
+
+	key_name      message
+	format        /\[(?<tstamp>(.*?))\] \[(?<ver>(.*?))\] \[(?<host>(.*?))\] \[(?<scheme>(.*?))\] \[(?<request>(.*?))\] \[(?<method>(.*?))\] \[(?<uri>(.*?))\] \[(?<query>(.*?))\] \[(?<proto>(.*?))\] \[(?<contType>(.*?))\] \[(?<referer>(.*?))\] \[(?<userAgent>(.*?))\] \[(?<status>(.*?))\] \[(?<responseTime>(.*?))\] \[(?<reqLen>(.*?))\] \[(?<contLen>(.*?))\] \[(?<sentBytes>(.*?))\] \[(?<bodyBytes>(.*?))\] \[(?<realIp>(.*?))\] \[(?<forwardedFor>(.*?))\] \[(?<forwardedPort>(.*?))\] \[(?<serverAddr>(.*?))\] \[(?<serverPort>(.*?))\] \[(?<remoteAddr>(.*?))\] \[(?<remoteUser>(.*?))\] \[(?<remotePort>(.*?))\] \[(?<upstreamAddr>(.*?))\] \[(?<serverName>(.*?))\] \[(?<connection>(.*?))\] \[(?<connRequests>(.*?))\] \[(?<reqCompletion>(.*?))\] \[(?<upstreamCacheStatus>(.*?))\] ?(?<others>(.*))/
+
+	remove_prefix raw
+	add_prefix    parsed
+</match>
+
+<match parsed.<%=@customer%>.nginx-clb.logs>
+	type          typecast
+	item_types    status:integer,responseTime:float,reqLen:integer,contLen:integer,sentBytes:integer,bodyBytes:integer,connection:integer,connRequests:integer
+
+	prefix        typecasted
+</match>
+
+<match typecasted.parsed.<%=@customer%>.nginx-clb.**>
+	type         record_reformer
+
+	renew_record false
+	tag          enriched.${tag_suffix[2]}
+
+	<record>
+		host     ${hostname}
+	</record>
+</match>

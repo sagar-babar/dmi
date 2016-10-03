@@ -1,0 +1,67 @@
+<match enriched.dsp.dls.registration.events.api>
+	type loggly_buffered
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,registration,events,api,timing
+
+	output_include_time true
+
+	buffer_type        file
+	buffer_path        /logs/td-agent/buffer/dsp.dls.registration.events.api.buffer
+	buffer_chunk_limit 4m
+	buffer_queue_limit 204800
+
+	flush_interval     10s
+	retry_wait         10s
+	retry_limit        50
+	num_threads        4
+</match>
+
+<match enriched.dsp.dls.registration.events.errors>
+	type loggly_buffered
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,registration,events,error
+
+	output_include_time true
+
+	buffer_type        file
+	buffer_path        /logs/td-agent/buffer/dsp.dls.registration.events.errors.buffer
+	buffer_chunk_limit 4m
+	buffer_queue_limit 204800
+
+	flush_interval     10s
+	retry_wait         10s
+	retry_limit        50
+	num_threads        4
+</match>
+
+<match enriched.dsp.dls.import.events.api>
+	type loggly_buffered
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,import,events,api,timing
+
+	output_include_time true
+
+	buffer_type        file
+	buffer_path        /logs/td-agent/buffer/dsp.dls.import.events.api.buffer
+	buffer_chunk_limit 4m
+	buffer_queue_limit 204800
+
+	flush_interval     10s
+	retry_wait         10s
+	retry_limit        50
+	num_threads        4
+</match>
+
+<match enriched.dsp.dls.import.events.errors>
+	type loggly_buffered
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,import,events,error
+
+	output_include_time true
+
+	buffer_type        file
+	buffer_path        /logs/td-agent/buffer/dsp.dls.import.events.errors.buffer
+	buffer_chunk_limit 4m
+	buffer_queue_limit 204800
+
+	flush_interval     10s
+	retry_wait         10s
+	retry_limit        50
+	num_threads        4
+</match>

@@ -1,11 +1,11 @@
-<match enriched.dsp.dls.registration.events.api>
+<match enriched.dsp-noida.dls-noida.registration-noida.events-noida.api-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,registration,events,api,timing
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,registration-noida,events-noida,api-noida,timing
 
 	output_include_time true
 
 	buffer_type        file
-	buffer_path        /logs/td-agent/buffer/dsp.dls.registration.events.api.buffer
+	buffer_path        /logs/td-agent/buffer/dsp-noida.dls-noida.registration-noida.events-noida.api-noida.buffer
 	buffer_chunk_limit 4m
 	buffer_queue_limit 204800
 
@@ -15,14 +15,14 @@
 	num_threads        4
 </match>
 
-<match enriched.dsp.dls.registration.events.errors>
+<match enriched.dsp-noida.dls-noida.registration-noida.events-noida.errors-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,registration,events,error
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,registration-noida,events-noida,error-noida
 
 	output_include_time true
 
 	buffer_type        file
-	buffer_path        /logs/td-agent/buffer/dsp.dls.registration.events.errors.buffer
+	buffer_path        /logs/td-agent/buffer/dsp-noida.dls-noida.registration-noida.events-noida.errors-noida.buffer
 	buffer_chunk_limit 4m
 	buffer_queue_limit 204800
 
@@ -32,14 +32,14 @@
 	num_threads        4
 </match>
 
-<match enriched.dsp.dls.import.events.api>
+<match enriched.dsp-noida.dls-noida.import-noida.events-noida.api-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,import,events,api,timing
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,import-noida,events-noida,api-noida,timing
 
 	output_include_time true
 
 	buffer_type        file
-	buffer_path        /logs/td-agent/buffer/dsp.dls.import.events.api.buffer
+	buffer_path        /logs/td-agent/buffer/dsp-noida.dls-noida.import-noida.events-noida.api-noida.buffer
 	buffer_chunk_limit 4m
 	buffer_queue_limit 204800
 
@@ -49,14 +49,14 @@
 	num_threads        4
 </match>
 
-<match enriched.dsp.dls.import.events.errors>
+<match enriched.dsp-noida.dls-noida.import-noida.events-noida.errors-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp,dls,import,events,error
+	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,import-noida,events-noida,error-noida
 
 	output_include_time true
 
 	buffer_type        file
-	buffer_path        /logs/td-agent/buffer/dsp.dls.import.events.errors.buffer
+	buffer_path        /logs/td-agent/buffer/dsp-noida.dls-noida.import-noida.events-noida.errors-noia.buffer
 	buffer_chunk_limit 4m
 	buffer_queue_limit 204800
 

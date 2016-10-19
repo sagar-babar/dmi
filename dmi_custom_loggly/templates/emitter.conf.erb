@@ -1,6 +1,6 @@
 <match enriched.dsp-noida.dls-noida.registration-noida.events-noida.api-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,registration-noida,events-noida,api-noida,timing
+	loggly_url  https://logs-01.loggly.com/bulk/<%=@customer_token%>/tag/dsp-noida,dls-noida,registration-noida,events-noida,api-noida,timing
 
 	output_include_time true
 
@@ -17,7 +17,7 @@
 
 <match enriched.dsp-noida.dls-noida.registration-noida.events-noida.errors-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,registration-noida,events-noida,error-noida
+	loggly_url  https://logs-01.loggly.com/bulk/<%=@customer_token%>/tag/dsp-noida,dls-noida,registration-noida,events-noida,error-noida
 
 	output_include_time true
 
@@ -34,7 +34,7 @@
 
 <match enriched.dsp-noida.dls-noida.import-noida.events-noida.api-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,import-noida,events-noida,api-noida,timing
+	loggly_url  https://logs-01.loggly.com/bulk/<%=@customer_token%>/tag/dsp-noida,dls-noida,import-noida,events-noida,api-noida,timing
 
 	output_include_time true
 
@@ -51,7 +51,7 @@
 
 <match enriched.dsp-noida.dls-noida.import-noida.events-noida.errors-noida>
 	type loggly_buffered
-	loggly_url  https://logs-01.loggly.com/bulk/f8d958a3-1b57-436a-aff6-f0bdfc7ba357/tag/dsp-noida,dls-noida,import-noida,events-noida,error-noida
+	loggly_url  https://logs-01.loggly.com/bulk/<%=@customer_token%>/tag/dsp-noida,dls-noida,import-noida,events-noida,error-noida
 
 	output_include_time true
 
